@@ -95,7 +95,7 @@ class ConversationalAgent:
         
         chat_history.append([query, bot_message])
         
-        print("Number of message packs being send for CA: ",len(chat_history))
+        #print("Number of message packs being send for CA: ",len(chat_history))
         
         
         return '', chat_history

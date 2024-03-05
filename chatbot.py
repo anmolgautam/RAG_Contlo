@@ -18,13 +18,20 @@ api_key = os.getenv("OPEN_AI_API")
 
 bot = ConversationalAgent(api_key)
 
+def get_curent_datetime() -> str:
+    return datetime.now().strftime("%Y%m%d-%H%M%S")
+
 def chat_session(query,chat_history):
     
     #add retrieved docs from db to system prompt here
     docs = docstore.retrieve_data(query=query,number_of_documents=2)
     print(docs['documents'])
-    bot.system_prompt = bot.system_prompt.replace('{documents}',str(docs))
+    sys = bot.system_prompt
+    bot.system_prompt = bot.system_prompt.replace('{documents}',str(docs['documents']))
+    print(bot.system_prompt)
+    #query = "TimeStamp : " + get_curent_datetime() + "\n" + "User Input : " + query
     results = bot.generate_response(query,chat_history)
+    bot.system_prompt = sys
     return results
 
 with gr.Blocks() as demo:
